@@ -1,12 +1,16 @@
 package display;
 
-import backend.GPS;
+import backend.DangerZone;
+import backend.Location;
+import observer_design.Observer;
 
-public class DangerZoneDisplay {
-    public void displayAlarm(GPS gps) {
-        if (gps.isInDangerZone()) {
-            // Logic to display the danger zone alarm
-            System.out.println("\n********** DANGER DETECTED!!!!!!!!! ***************/\n Danger Zone Alarm!\n");
+public class DangerZoneDisplay implements Observer {
+    
+    private DangerZone dangerZone = new DangerZone();
+    public void update(Location location) {
+        // Logic to display the danger zone alarm
+        if (dangerZone.isInDangerZone(location)) {
+            System.out.println("\n********** DANGER DETECTED!!!!!!!!! ***************\n Danger Zone Alarm!\n");
         }
         else {
             System.out.println("SAFE! No danger detected");

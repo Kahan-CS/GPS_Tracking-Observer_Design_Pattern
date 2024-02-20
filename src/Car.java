@@ -14,6 +14,5 @@ public class Car {
 
     public void startJourney() {
         CarGUI carGUI = new CarGUI();
-        carGUI.main(null);
     }
 }

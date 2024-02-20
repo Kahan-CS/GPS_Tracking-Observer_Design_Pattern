@@ -19,9 +19,9 @@ public class DangerZone {
         dangerZoneRadius = radius;
     }
 
-    public boolean isInDangerZone(Location xy)
+    public boolean isInDangerZone(Location location)
     {
-        return dangerZoneCenter.distance(xy) <= dangerZoneRadius;
+        return dangerZoneCenter.distance(location) <= dangerZoneRadius;
     }
 
 }

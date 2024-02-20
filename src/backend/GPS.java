@@ -1,38 +1,50 @@
 package backend;
 
-public class GPS {
+import observer_design.Observer;
+import observer_design.Subject;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GPS implements Subject {
     private Location currentLocation;
-    private TotalTravelledDistance totalDistanceTracker;
-    private DangerZone dangerZone;
+
+    private List<Observer> observers = new ArrayList<>();
+
 
     public GPS() {
         this.currentLocation = new Location(0, 0);
-        this.totalDistanceTracker = new TotalTravelledDistance();
-        this.dangerZone = new DangerZone();
     }
 
-    public Location getCurrentLocation() {
-        return currentLocation;
-    }
 
-    public double getTotalDistance() {
-        return totalDistanceTracker.getTotalDistance();
-    }
-
-    public void changeLocation(int newX, int newY) {
-        // Calculate distance traveled based on the new location
-        double distanceTraveled = currentLocation.distance(newX, newY);
-
-        // Update the total distance
-        totalDistanceTracker.updateTotalDistance(distanceTraveled);
+    public void changeLocation(Location location) {
 
         // Update the current location
-        currentLocation.setLocation(newX, newY);
+        currentLocation.setLocation(location);
+        notifyObservers();
     }
 
-    public boolean isInDangerZone() {
-        // Use the DangerZone object directly
-        return dangerZone.isInDangerZone(currentLocation);
+
+    public void resetTrip()
+    {
+        currentLocation.setLocation(0,0);
     }
 
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(currentLocation);
+        }
+    }
 }

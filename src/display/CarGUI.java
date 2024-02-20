@@ -1,40 +1,56 @@
 package display;
 
 import backend.GPS;
+import backend.Location;
 
 import java.util.Scanner;
 
 public class CarGUI {
-    public static void main(String[] args) {
+    public CarGUI() {
         GPS gps = new GPS();
         CurrentLocationDisplay currentLocationDisplay = new CurrentLocationDisplay();
         TotalTravelledDistanceDisplay totalDistanceDisplay = new TotalTravelledDistanceDisplay();
         DangerZoneDisplay dangerZoneDisplay = new DangerZoneDisplay();
+
+        gps.addObserver(currentLocationDisplay);
+        gps.addObserver(totalDistanceDisplay);
+        gps.addObserver(dangerZoneDisplay);
+
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Car journey started from (0,0). Enter coordinates to travel.");
+        System.out.println("Car journey started from (0,0).");
 
-        while (true) {
-            System.out.print("Enter next coordinates (or type 'end' to finish): ");
+        boolean guiActivated = true;
+
+        while (guiActivated)
+        {
+            System.out.print("\n Enter coordinates (format: 'x,y') (or type 'end' to finish, or 'quit' to quit): ");
             String input = scanner.nextLine();
 
-            if (input.equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("end"))
+            {
                 System.out.println("Trip ended. Restarting from (0,0).");
-                gps.changeLocation(0, 0);  // Reset the trip to the origin
-            } else {
+                gps.resetTrip();
+                totalDistanceDisplay.reset();
+            }
+            else if (input.equalsIgnoreCase("quit"))
+            {
+                System.out.println("Trip ended. Quitting program...");
+                gps.resetTrip();
+                totalDistanceDisplay.reset();
+                guiActivated = false;
+            }
+            else {
                 try {
                     // Parse user input as coordinates
                     String[] coordinates = input.split(",");
-                    int newX = Integer.parseInt(coordinates[0].trim());
-                    int newY = Integer.parseInt(coordinates[1].trim());
+                    double newX = Double.parseDouble(coordinates[0]);
+                    double newY = Double.parseDouble(coordinates[1]);
 
-                    // Update the location and display information
-                    gps.changeLocation(newX, newY);
-                    currentLocationDisplay.displayCurrentLocation(gps);
-                    totalDistanceDisplay.displayTotalDistance(gps);
-                    dangerZoneDisplay.displayAlarm(gps);
+                    gps.changeLocation(new Location(newX, newY));
 
-                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                }
+                catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                     System.out.println("Invalid input. Please enter valid coordinates.");
                 }
             }

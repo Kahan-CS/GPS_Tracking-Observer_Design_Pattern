@@ -3,7 +3,19 @@ package backend;
 public class TotalTravelledDistance {
     private double totalDistance;
 
-    public void updateTotalDistance(double distanceTraveled) {
+    public TotalTravelledDistance()
+    {
+        totalDistance = 0;
+    }
+
+
+    public void resetTotalDistance()
+    {
+        totalDistance = 0;
+    }
+
+    public void updateTotalDistance(double distanceTraveled)
+    {
         totalDistance += distanceTraveled;
     }
 

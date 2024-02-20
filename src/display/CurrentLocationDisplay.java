@@ -1,9 +1,10 @@
 package display;
 
 import backend.GPS;
-
-public class CurrentLocationDisplay {
-    public void displayCurrentLocation(GPS gps) {
-        System.out.println("Current Location: (" + gps.getCurrentLocation().getX() + ", " + gps.getCurrentLocation().getY() + ")");
+import observer_design.Observer;
+import backend.Location;
+public class CurrentLocationDisplay implements Observer {
+    public void update(Location location) {
+        System.out.println("Current Location: (" + location.getX() + ", " + location.getY() + ")");
     }
 }
