@@ -19,7 +19,8 @@ public class GPS implements Subject {
     public void changeLocation(Location location) {
 
         // Update the current location
-        currentLocation.setLocation(location);
+        // currentLocation.setLocation(location);
+        this.currentLocation = new Location(location.getX(), location.getY());
         notifyObservers();
     }
 
