@@ -9,6 +9,7 @@ public class CarGUI {
         GPS gps = new GPS();
         CurrentLocationDisplay currentLocationDisplay = new CurrentLocationDisplay();
         TotalTravelledDistanceDisplay totalDistanceDisplay = new TotalTravelledDistanceDisplay();
+        DangerZoneDisplay dangerZoneDisplay = new DangerZoneDisplay();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Car journey started from (0,0). Enter coordinates to travel.");
@@ -31,6 +32,7 @@ public class CarGUI {
                     gps.changeLocation(newX, newY);
                     currentLocationDisplay.displayCurrentLocation(gps);
                     totalDistanceDisplay.displayTotalDistance(gps);
+                    dangerZoneDisplay.displayAlarm(gps);
 
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                     System.out.println("Invalid input. Please enter valid coordinates.");

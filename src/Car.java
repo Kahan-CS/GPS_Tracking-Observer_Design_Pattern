@@ -16,6 +16,4 @@ public class Car {
         CarGUI carGUI = new CarGUI();
         carGUI.main(null);
     }
-
-    // You can add more methods as needed
 }
